@@ -148,6 +148,7 @@ lgb_cols = ['sim0', 'time_diff0', 'word_diff0','sim_max', 'sim_min', 'sim_sum',
             'click_region','click_referrer_type', 'user_time_hob1', 'user_time_hob2',
             'words_hbo', 'category_id', 'created_at_ts','words_count']
 
+# LGBMRanker模型----------------------------------------------------------------------------------------------------
 
 # 排序模型分组
 trn_user_item_feats_df_rank_model.sort_values(by=['user_id'], inplace=True)
@@ -259,6 +260,8 @@ rank_results = tst_user_item_feats_df_rank_model[['user_id', 'click_article_id',
 rank_results['click_article_id'] = rank_results['click_article_id'].astype(int)
 submit(rank_results, topk=5, model_name='lgb_ranker')
 metrics_rank(rank_results, topk=5, tst_last_click_df=tst_last_click_df, model_name=lgb_ranker)
+
+# LGBMClassifier模型----------------------------------------------------------------------------------------------------
 
 # 模型及参数的定义
 lgb_Classfication = lgb.LGBMClassifier(boosting_type='gbdt', num_leaves=31, reg_alpha=0.0, reg_lambda=1,
@@ -393,6 +396,7 @@ tst_user_item_feats_df_din_model = tst_user_item_feats_df_din_model.merge(his_be
 
 
 tst_user_item_feats_df_din_model.sort_values(by = ['user_id'])
+
 
 # 导入deepctr
 from deepctr.models import DIN
